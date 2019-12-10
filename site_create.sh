@@ -25,10 +25,10 @@ if [ "$1" = "-n" ] #adding a new site
 	echo "<p>This is a paragraph.</p>" >> /usr/share/nginx/html/$2/index.html
 	echo "</body>" >> /usr/share/nginx/html/$2/index.html
 	echo "</html>" >> /usr/share/nginx/html/$2/index.html
-	#comment out the last line in the http{} block 
-	#use # at the beginning of the line)
-	# the line is:
-	#    include /etc/nginx/conf.d/*.conf;
+	echo "**You still need to comment out the last line in the http{} block**" 
+	echo "**use # at the beginning of the line**"
+	echo "the line is:"
+	echo "include /etc/nginx/conf.d/*.conf;"
 	#create symlink to make site go live
 	ln -s /etc/nginx/sites-available/$2 /etc/nginx/sites-enabled/
 	echo "in build a new site option"  
