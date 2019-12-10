@@ -2,6 +2,8 @@
 if [ "$1" = "-n" ] #adding a new site 
 	# $2 should be the new domain name                                              
 	then 
+	echo ""
+	echo "Build a new site: $2"
 	#create server block config for new site
 	touch /etc/nginx/sites-available/$2
 	#populate server block with proper stuff
@@ -31,22 +33,27 @@ if [ "$1" = "-n" ] #adding a new site
 	echo "include /etc/nginx/conf.d/*.conf;"
 	#create symlink to make site go live
 	ln -s /etc/nginx/sites-available/$2 /etc/nginx/sites-enabled/
-	echo "in build a new site option"  
+	echo ""
 fi                                                                                
-if [ "$1" = "-d" ] # deactivate site but keep it around    
-	# $2 should be the domain name                         
+if [ "$1" = "-d" ] # deactivate site but keep it around
+	# $2 should be the domain name
 	then                        
-	echo "deactivate a site but keep it around"
+	echo ""
+	echo "deactivate site: $2"
 	rm /etc/nginx/sites-enabled/$2
 	echo "------- site deactivated -------"
+	echo ""
 fi                                                                              
 if [ "$1" = "-r" ] # reactivate a site (create a symlink)                                            
 	then 
+	echo ""
+	echo "Reactivate site: $2"
 	ln -s /etc/nginx/sites-available/$2 /etc/nginx/sites-enabled/
-        echo "reactivate a site"
+        echo ""
 fi
 if [ "$1" = "-l" ] #list sites, both active and inactive.
 	then
+	echo ""
 	echo "=================================="
 	echo "List Available and Enabled sites"
 	echo "=================================="
@@ -56,4 +63,25 @@ if [ "$1" = "-l" ] #list sites, both active and inactive.
 	echo "------------- Enabled ------------"
 	#list files in sites-enabled directory
 	ls /etc/nginx/sites-enabled/
+	echo ""
+fi
+if [ "$1" = "?" ] #list available commands
+	then
+	echo ""
+	echo "Available Commands"
+	echo "============================"
+	echo "*Always type domain names without 'www' at the beginning."
+	echo "----------------------------"
+	echo "Create a site."
+	echo "-n <domain_name>"
+	echo "----------------------------"
+	echo "Deactivate a Site"
+	echo "-d <domain_name>"
+	echo "----------------------------"
+	echo "reactivate a site"
+	echo "-r <domain_name>"
+	echo "----------------------------" 
+	echo "List available/enabled sites"
+	echo "-l"
+	echo ""
 fi
