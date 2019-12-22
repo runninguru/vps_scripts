@@ -52,7 +52,7 @@ echo "server{
   listen 80 http2;
   listen [::]:80 http2;
   root /usr/share/nginx/html/azod.pw;
-  index index.html;
+  index index.html index.php;
   server_name www.azod.pw azod.pw;
   location / {
     try_files \$uri \$uri/ =404;

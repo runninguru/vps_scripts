@@ -8,10 +8,10 @@ if [ "$1" = "-n" ] #adding a new site
 	touch /etc/nginx/sites-available/$2
 	#populate server block with proper stuff
 	echo "server{
-	  listen 80;
-	  listen [::]:80;
+	  listen 80 http2;
+	  listen [::]:80 http2;
 	  root /usr/share/nginx/html/$2;
-	  index index.html;
+	  index index.html index.php;
 	  server_name www.$2 $2;
 	  location / {
 	    try_files \$uri \$uri/ =404;
