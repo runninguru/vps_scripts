@@ -1,18 +1,22 @@
 #!/bin/bash
+#make the vps management script available to the root user
+echo "alias vps='/root/vps/site_create.sh'" >> /root/.bashrc
+
 #vim setup
 cd /root
 touch .vimrc
-echo "let g:netrw_banner = 0" > .vimrc
-echo "let g:netrw_liststyle = 3" >> .vimrc
-echo "let g:netrw_browse_split = 4" >> .vimrc
-echo "let g:netrw_altv = 1" >> .vimrc
-echo "let g:netrw_winsize = 25" >> .vimrc
-echo "augroup ProjectDrawer" >> .vimrc
-echo "  autocmd!" >> .vimrc
-echo "  autocmd VimEnter * :Vexplore" >> .vimrc
-echo "augroup END" >> .vimrc
-echo "syntax on" >> .vimrc
-echo "colorscheme industry" >> .vimrc
+echo "let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+augroup END
+syntax on
+colorscheme industry
+set tabstop=4 shiftwidth=4 expandtab" > .vimrc
 #Nginx setup
 apt update -y
 apt install nginx -y
@@ -44,26 +48,26 @@ echo "}" >> /etc/nginx/nginx.conf
 #create server block config for new site
 touch /etc/nginx/sites-available/azod.pw
 #populate server block with proper stuff
-echo "server{" > /etc/nginx/sites-available/azod.pw
-echo "  listen 80;" >> /etc/nginx/sites-available/azod.pw
-echo "  listen [::]:80;" >> /etc/nginx/sites-available/azod.pw
-echo "  root /usr/share/nginx/html/azod.pw;" >> /etc/nginx/sites-available/azod.pw
-echo "  index index.html;" >> /etc/nginx/sites-available/azod.pw
-echo "  server_name www.azod.pw azod.pw;" >> /etc/nginx/sites-available/azod.pw
-echo "  location / {" >> /etc/nginx/sites-available/azod.pw
-echo "    try_files \$uri \$uri/ =404;" >> /etc/nginx/sites-available/azod.pw
-echo "  }" >> /etc/nginx/sites-available/azod.pw
-echo "}" >> /etc/nginx/sites-available/azod.pw
+echo "server{
+  listen 80 http2;
+  listen [::]:80 http2;
+  root /usr/share/nginx/html/azod.pw;
+  index index.html;
+  server_name www.azod.pw azod.pw;
+  location / {
+    try_files \$uri \$uri/ =404;
+  }
+}" > /etc/nginx/sites-available/azod.pw
 #create index.html and directory for server site.
 mkdir /usr/share/nginx/html/azod.pw
-echo "<html>" > /usr/share/nginx/html/azod.pw/index.html
-echo "<head>" >> /usr/share/nginx/html/azod.pw/index.html
-echo "<title>This is a website</title>" >> /usr/share/nginx/html/azod.pw/index.html
-echo "</head>" >> /usr/share/nginx/html/azod.pw/index.html
-echo "<body>" >> /usr/share/nginx/html/azod.pw/index.html
-echo "<p>This is a paragraph.</p>" >> /usr/share/nginx/html/azod.pw/index.html
-echo "</body>" >> /usr/share/nginx/html/azod.pw/index.html
-echo "</html>" >> /usr/share/nginx/html/azod.pw/index.html
+echo "<html>
+<head>
+<title>This is a website</title>
+</head>
+<body>
+<p>This is a paragraph.</p>
+</body>
+</html>" > /usr/share/nginx/html/azod.pw/index.html
 #comment out the last line in the http{} block 
 #use # at the beginning of the line)
 # the line is:

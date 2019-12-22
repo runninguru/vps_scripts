@@ -2,15 +2,16 @@
 #vim setup
 cd /root
 touch .vimrc
-echo "let g:netrw_banner = 0" > .vimrc
-echo "let g:netrw_liststyle = 3" >> .vimrc
-echo "let g:netrw_browse_split = 4" >> .vimrc
-echo "let g:netrw_altv = 1" >> .vimrc
-echo "let g:netrw_winsize = 25" >> .vimrc
-echo "augroup ProjectDrawer" >> .vimrc
-echo "  autocmd!" >> .vimrc
-echo "  autocmd VimEnter * :Vexplore" >> .vimrc
-echo "augroup END" >> .vimrc
-echo "syntax on" >> .vimrc
-echo "colorscheme industry" >> .vimrc
+echo "let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+augroup ProjectDrawer
+  autocmd!
+  autocmd VimEnter * :Vexplore
+augroup END
+syntax on
+colorscheme industry
+set tabstop=4 shiftwidth=4 expandtab" > .vimrc
 cat .vimrc

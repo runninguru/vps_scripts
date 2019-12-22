@@ -7,31 +7,28 @@ if [ "$1" = "-n" ] #adding a new site
 	#create server block config for new site
 	touch /etc/nginx/sites-available/$2
 	#populate server block with proper stuff
-	echo "server{" > /etc/nginx/sites-available/$2
-	echo "  listen 80;" >> /etc/nginx/sites-available/$2
-	echo "  listen [::]:80;" >> /etc/nginx/sites-available/$2
-	echo "  root /usr/share/nginx/html/$2;" >> /etc/nginx/sites-available/$2
-	echo "  index index.html;" >> /etc/nginx/sites-available/$2
-	echo "  server_name www.$2 $2;" >> /etc/nginx/sites-available/$2
-	echo "  location / {" >> /etc/nginx/sites-available/$2
-	echo "    try_files \$uri \$uri/ =404;" >> /etc/nginx/sites-available/$2
-	echo "  }" >> /etc/nginx/sites-available/$2
-	echo "}" >> /etc/nginx/sites-available/$2
+	echo "server{
+	  listen 80;
+	  listen [::]:80;
+	  root /usr/share/nginx/html/$2;
+	  index index.html;
+	  server_name www.$2 $2;
+	  location / {
+	    try_files \$uri \$uri/ =404;
+	  }
+	}" >> /etc/nginx/sites-available/$2
 	#create index.html and directory for server site.
 	mkdir /usr/share/nginx/html/$2
-	echo "<html>" > /usr/share/nginx/html/$2/index.html
-	echo "<head>" >> /usr/share/nginx/html/$2/index.html
-	echo "<title>This is a website</title>" >> /usr/share/nginx/html/$2/index.html
-	echo "</head>" >> /usr/share/nginx/html/$2/index.html
-	echo "<body>" >> /usr/share/nginx/html/$2/index.html
-	echo "<p>This is a paragraph.</p>" >> /usr/share/nginx/html/$2/index.html
-	echo "</body>" >> /usr/share/nginx/html/$2/index.html
-	echo "</html>" >> /usr/share/nginx/html/$2/index.html
-	echo "**You still need to comment out the last line in the http{} block**" 
-	echo "**use # at the beginning of the line**"
-	echo "the line is:"
-	echo "include /etc/nginx/conf.d/*.conf;"
-	#create symlink to make site go live
+
+	echo "<html>
+	<head>
+	<title>This is a website</title>
+	</head>
+	<body>
+	<p>This is a paragraph.</p>
+	</body>
+	</html>" >> /usr/share/nginx/html/$2/index.html 
+
 	ln -s /etc/nginx/sites-available/$2 /etc/nginx/sites-enabled/
 	echo ""
 fi                                                                                
