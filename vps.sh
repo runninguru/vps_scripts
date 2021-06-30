@@ -1,4 +1,8 @@
 #!/bin/bash
+# set up vim
+# set up nginx so it can run multiple websites/configurations/etc.
+# run this before using site_create.sh, or else it won't work.
+
 #make the vps management script available to the root user
 echo "alias vps='/root/vps/site_create.sh'" >> /root/.bashrc
 
@@ -11,8 +15,8 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 let g:netrw_winsize = 25
 augroup ProjectDrawer
-  autocmd!
-  autocmd VimEnter * :Vexplore
+autocmd!
+autocmd VimEnter * :Vexplore
 augroup END
 syntax on
 colorscheme industry
@@ -49,14 +53,32 @@ echo "}" >> /etc/nginx/nginx.conf
 touch /etc/nginx/sites-available/azod.pw
 #populate server block with proper stuff
 echo "server{
-  listen 80 http2;
-  listen [::]:80 http2;
-  root /usr/share/nginx/html/azod.pw;
-  index index.html index.php;
-  server_name www.azod.pw azod.pw;
-  location / {
-    try_files \$uri \$uri/ =404;
-  }
+listen 80;
+listen 443 ssl;
+listen [::]:443 ssl;
+
+ssl_certificate /etc/nginx/ssl/server.crt;                                       
+ssl_certificate_key /etc/nginx/ssl/server.key;   
+
+root /usr/share/nginx/html/azod.pw;
+index index.html index.php;
+server_name www.azod.pw azod.pw;
+location / {
+try_files \$uri \$uri/ =404;
+}
+
+location ~ \\.php$                                                                
+{                                                                                
+try_files      \$uri =404;                                                    
+fastcgi_pass   127.0.0.1:9000;                                               
+fastcgi_index  index.php;                                                    
+fastcgi_param  SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;          
+include        fastcgi_params;                                               
+}
+
+location ~* \\.(htaccess|htpasswd) {                           
+deny all;                                                 
+}
 }" > /etc/nginx/sites-available/azod.pw
 #create index.html and directory for server site.
 mkdir /usr/share/nginx/html/azod.pw

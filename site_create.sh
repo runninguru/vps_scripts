@@ -1,4 +1,6 @@
 #!/bin/bash                                                  
+# run this after vps.sh to manage specific websites within nginx.
+# if you dont run vps.sh first, this definitely won't work.
 if [ "$1" = "-n" ] #adding a new site 
 	# $2 should be the new domain name                                              
 	then 
@@ -8,8 +10,8 @@ if [ "$1" = "-n" ] #adding a new site
 	touch /etc/nginx/sites-available/$2
 	#populate server block with proper stuff
 	echo "server{
-	  listen 80 http2;
-	  listen [::]:80 http2;
+	  listen 80;
+	  listen [::]:80;
 	  root /usr/share/nginx/html/$2;
 	  index index.html index.php;
 	  server_name www.$2 $2;

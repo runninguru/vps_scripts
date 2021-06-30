@@ -1,5 +1,6 @@
 #!/bin/bash
-#vim setup
+# just vim setup. This is for reference. This should already be a part of vps.sh
+
 cd /root
 touch .vimrc
 echo "let g:netrw_banner = 0
