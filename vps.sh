@@ -3,6 +3,12 @@
 # set up nginx so it can run multiple websites/configurations/etc.
 # run this before using site_create.sh, or else it won't work.
 
+# July 11, 2021
+# I still need to change the default nginx conf files to avoid indicating what the default website is.
+# in the default conf, http conf, and https conf.
+# when these files dont indicate what the proper website location/index/etc config is, it will
+# default to the associated individual site config files.
+
 #make the vps management script available to the root user
 echo "alias vps='/root/vps/site_create.sh'" >> /root/.bashrc
 
